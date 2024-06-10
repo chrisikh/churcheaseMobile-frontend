@@ -165,11 +165,11 @@ const AppProvider = ({ children }) => {
         data: currentUser,
       };
 
-      console.log("Sending request with config:", config);
+      // console.log("Sending request with config:", config);
 
       const response = await axios.request(config);
 
-      console.log("Response received:", response);
+      // console.log("Response received:", response);
 
       const { user, token, mfaRequired, mfaEmail } = response.data;
 

@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import { useAppContext } from "../context/appContext";
 import MyColors from "../constants/MyColors";
-import LocalAuthentication from "react-native-local-auth";
+import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const fellowItems = [
@@ -124,18 +124,17 @@ const ProfileModal = ({ show, setShow }) => {
     }
   };
 
-  const handleFaceID = () => {
-    LocalAuthentication.authenticate({
-      reason: "Sign in with Face ID",
-      fallbackToPasscode: true,
-      suppressEnterPassword: true,
-    })
-      .then((success) => {
+  const handleFaceID = async () => {
+    try {
+      const { success } = await LocalAuthentication.authenticateAsync();
+      if (success) {
         Alert.alert("Authenticated Successfully");
-      })
-      .catch((error) => {
-        Alert.alert("Authentication Failed", error.message);
-      });
+      } else {
+        Alert.alert("Authentication Failed");
+      }
+    } catch (error) {
+      Alert.alert("Authentication Error", error.message);
+    }
   };
   const handleProfilePress = () => {
     navigation.navigate("Profile");

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { NavigationContainer, useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppContext } from "@/context/appContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -82,7 +82,6 @@ function AuthStack() {
 }
 
 function AuthenticatedStack() {
-  console.log("auth stack is working");
   return (
     <Stack.Navigator
       initialRouteName="HomeTabs"
@@ -560,64 +559,40 @@ const HomeTabs = () => {
   );
 };
 
-// function Navigation() {
-//   const [token, setToken] = useState(null);
-//   useEffect(() => {
-//     const fetchToken = async () => {
-//       try {
-//         const storedToken = await AsyncStorage.getItem("token");
-//         if (storedToken) {
-//           setToken(storedToken);
-//         }
-//       } catch (error) {
-//         console.log("Failed to fetch the token from AsyncStorage:", error);
-//       }
-//     };
+const Splash = (props) => {
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const token = await AsyncStorage.getItem("token");
+        token
+          ? props.navigation.navigate("AuthenticatedStack")
+          : props.navigation.navigate("AuthStack");
+      })();
+    }, [])
+  );
 
-//     fetchToken();
-//   }, []);
-
-//   return (
-//     <NavigationContainer independent={true}>
-//       <StatusBar barStyle="light-content" backgroundColor="#243060" />
-//       {token ? <AuthenticatedStack /> : <AuthStack />}
-//     </NavigationContainer>
-//   );
-// }
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" color="#243060" />
+    </View>
+  );
+};
 
 function Navigation() {
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const storedToken = await AsyncStorage.getItem("token");
-        if (storedToken) {
-          setToken(storedToken);
-        }
-      } catch (error) {
-        console.log("Failed to fetch the token from AsyncStorage:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchToken();
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#243060" />
-      </View>
-    );
-  }
-
   return (
     <NavigationContainer independent={true}>
       <StatusBar barStyle="light-content" backgroundColor="#243060" />
-      {token ? <AuthenticatedStack /> : <AuthStack />}
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen
+          name="AuthenticatedStack"
+          component={AuthenticatedStack}
+        />
+        <Stack.Screen name="AuthStack" component={AuthStack} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

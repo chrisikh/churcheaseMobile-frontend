@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
@@ -13,8 +14,18 @@ import StatsData from "@/components/StatsData";
 import Events from "@/components/Events";
 import { useNavigation } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 import registerForPushNotificationsAsync from "@/util/Permissions";
 import saveTokenToDatabase from "@/util/saveTokenToDatabase";
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 function Home() {
   const navigate = useNavigation();
@@ -22,9 +33,18 @@ function Home() {
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      saveTokenToDatabase(token)
-    );
+    console.log("useEffect triggered");
+
+    registerForPushNotificationsAsync()
+      .then((token) => {
+        if (token) {
+          saveTokenToDatabase(token);
+          console.log("Notification token:", token);
+        } else {
+          console.log("Failed to get push token");
+        }
+      })
+      .catch((error) => console.log("notification error : ", error));
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -37,10 +57,14 @@ function Home() {
       });
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (notificationListener.current) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+      if (responseListener.current) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
     };
   }, []);
 
@@ -61,21 +85,6 @@ function Home() {
 
   const renderItem = ({ item }) => {
     switch (item.type) {
-      // case "verse":
-      //   return (
-      //     <View style={styles.homeha}>
-      //       <ThemedText type="titlemini2" style={styles.define}>
-      //         Today's Verse
-      //       </ThemedText>
-      //       <ThemedText type="default" style={styles.define}>
-      //         "Let the redeemed of the lord say so, whom he has redeemed from
-      //         the hand of the enemy."
-      //       </ThemedText>
-      //       <ThemedText type="default" style={styles.define}>
-      //         Psalms 107:2
-      //       </ThemedText>
-      //     </View>
-      //   );
       case "stats":
         return (
           <View>

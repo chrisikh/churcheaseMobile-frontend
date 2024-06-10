@@ -7,6 +7,16 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow churchease to use Face ID."
+        }
+      ],
+      ["expo-router"],
+      ["expo-notifications"]
+    ],
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -19,18 +29,25 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.churchease.churcheasepush"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
     },
-
-    "owner": "churchease"
+    "owner": "churchease",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8745c92e-f6f7-4b26-b4fb-f549e14cb011"
+      }
+    }
   }
 }

@@ -30,15 +30,15 @@ export default function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [enteredSubdomain, setEnteredSubdomain] = useState("");
+  const [enteredSubdomain, setEnteredSubdomain] = useState("testaccount");
+  const [enteredEmail, setEnteredEmail] = useState("info@churchease.com");
+  const [enteredPassword, setEnteredPassword] = useState("12345678");
 
-  function emailInputHandler(email: string) {
+  function emailInputHandler(email) {
     setEnteredEmail(email);
   }
 
-  function passwordInputHandler(password: string) {
+  function passwordInputHandler(password) {
     setEnteredPassword(password);
   }
 
@@ -48,7 +48,7 @@ export default function Login() {
   //     setupUser: (user: any) => void; // Add this line
   //   }
 
-  function subdomainInputHandler(subdomain: string) {
+  function subdomainInputHandler(subdomain) {
     setEnteredSubdomain(subdomain);
   }
 
@@ -83,7 +83,7 @@ export default function Login() {
       .then((response) => {
         // Handle successful response here
         //console.log("User setup successfully:", response);
-        navigation.navigate("Home");
+        navigation.navigate("AuthenticatedStack");
         setIsAuthenticated(true);
       })
       .catch((error) => {
