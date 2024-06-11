@@ -86,7 +86,7 @@ const ProfileModal = ({ show, setShow }) => {
           setProfileImage(userData.mphoto);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 

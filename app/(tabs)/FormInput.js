@@ -6,30 +6,34 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
+  Button,
   Modal,
+  LogBox,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import he from "he";
 import RenderHtml from "react-native-render-html";
-import { Button, CheckBox, Input } from "react-native-elements";
+import { CheckBox, Input } from "react-native-elements";
 import Colors from "@/constants/MyColors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppContext } from "@/context/appContext";
+LogBox.ignoreLogs(["Warning: TNodeChildrenRenderer: Support for defaultProps"]);
 
-const FormInput = () => {
+const FormInput = ({ item = { description: "", title: "", forms: [] } }) => {
   const [memberId, setMemberId] = useState("");
   const [modalVisible2, setModalVisible2] = useState(false);
   const { submitUserForm } = useAppContext();
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userDataJson = await AsyncStorage.getItem("userData");
         if (userDataJson !== null) {
           const userData = JSON.parse(userDataJson);
-          setMemberId(userData.mid); // Assuming the first name is stored under the key 'firstName'
+          setMemberId(userData.mid);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 
@@ -37,16 +41,18 @@ const FormInput = () => {
   }, []);
 
   const route = useRoute();
-  const { item } = route.params;
+  const { item: routeItem } = route.params || { item };
 
-  const [formData, setFormData] = useState(item.forms);
+  const [formData, setFormData] = useState(routeItem.forms);
 
   const { width } = Dimensions.get("window");
 
   const decodedDescription = useMemo(
-    () => he.decode(item.description),
-    [item.description]
+    () => he.decode(routeItem.description),
+    [routeItem.description]
   );
+
+  console.log("Description : ", decodedDescription);
 
   const handleTaskTextChange = (text, index) => {
     const newFormData = [...formData];
@@ -78,8 +84,6 @@ const FormInput = () => {
   };
 
   const submitForm = async () => {
-    // Assuming you have access to the `user` object from your context or props
-
     if (!memberId) {
       console.error("Member ID is not available");
       return;
@@ -88,12 +92,11 @@ const FormInput = () => {
     const data = {
       formData,
       status: "Completed",
-      planId: item._id,
+      planId: routeItem._id,
       memberId,
     };
 
     try {
-      // Assuming `submitUserForm` is a function that handles form submission
       await submitUserForm(data);
       const clearedFormData = formData.map((form) => ({
         ...form,
@@ -102,23 +105,23 @@ const FormInput = () => {
       setFormData(clearedFormData);
       setModalVisible2(true);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.log("Error submitting form:", error);
     }
   };
 
   const tagsStyles = {
     body: {
-      lineHeight: 20, // Add your desired lineHeight
+      lineHeight: 20,
     },
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {item.forms && item.forms.length > 0 ? (
+      {routeItem.forms && routeItem.forms.length > 0 ? (
         <>
           <View>
             <View style={styles.flexColumn}>
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title}>{routeItem.title}</Text>
               <RenderHtml
                 contentWidth={width}
                 source={{ html: decodedDescription }}
@@ -179,7 +182,7 @@ const FormInput = () => {
                 </View>
               ))
             ) : (
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title}>{routeItem.title}</Text>
             )}
             <View style={styles.buttonContainer}>
               <Button
@@ -191,7 +194,7 @@ const FormInput = () => {
           </View>
         </>
       ) : (
-        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.title}>{routeItem.title}</Text>
       )}
       <Modal
         animationType="slide"
@@ -216,14 +219,6 @@ const FormInput = () => {
       </Modal>
     </ScrollView>
   );
-};
-
-FormInput.defaultProps = {
-  item: {
-    description: "",
-    title: "",
-    forms: [],
-  },
 };
 
 export default FormInput;

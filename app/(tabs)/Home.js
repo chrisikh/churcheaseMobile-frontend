@@ -18,7 +18,6 @@ import * as Device from "expo-device";
 import registerForPushNotificationsAsync from "@/util/Permissions";
 import saveTokenToDatabase from "@/util/saveTokenToDatabase";
 
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -27,7 +26,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function Home() {
+function Home(props) {
   const navigate = useNavigation();
   const notificationListener = useRef();
   const responseListener = useRef();
@@ -38,7 +37,7 @@ function Home() {
     registerForPushNotificationsAsync()
       .then((token) => {
         if (token) {
-          saveTokenToDatabase(token);
+          saveTokenToDatabase(token, props.navigation);
           console.log("Notification token:", token);
         } else {
           console.log("Failed to get push token");

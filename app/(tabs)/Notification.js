@@ -33,7 +33,7 @@ const Notification = () => {
         setNotificationPreferences(JSON.parse(storedPreferences));
       }
     } catch (error) {
-      console.error("Error fetching notification preferences:", error);
+      console.log("Error fetching notification preferences:", error);
     }
   };
 
@@ -44,7 +44,7 @@ const Notification = () => {
       );
       setNotifications(response.data);
     } catch (error) {
-      console.error("Error fetching notifications:", error);
+      console.log("Error fetching notifications:", error);
     }
   };
 
@@ -63,7 +63,7 @@ const Notification = () => {
       );
       alert("Preferences saved successfully!");
     } catch (error) {
-      console.error("Error saving preferences:", error);
+      console.log("Error saving preferences:", error);
     }
   };
 

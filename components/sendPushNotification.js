@@ -50,13 +50,13 @@ const sendPushNotification = async (token, message) => {
 
     const data = await response.json();
     if (data.errors) {
-      console.error("Error sending push notification:", data.errors);
+      console.log("Error sending push notification:", data.errors);
       throw new Error(data.errors);
     }
     console.log("Push notification response:", data);
     return data;
   } catch (error) {
-    console.error("Error in sendPushNotification:", error);
+    console.log("Error in sendPushNotification:", error);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "@/util/auth";
+import { logoutUser } from "@/context/appContext";
 
 const authFetch = axios.create({
   baseURL: BASE_URL,
@@ -12,20 +13,21 @@ const authFetch = axios.create({
 authFetch.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status != 200) {
       logoutUser();
     }
     return Promise.reject(error);
   }
 );
 
-const saveTokenToDatabase = async (token) => {
+const saveTokenToDatabase = async (token, navigation) => {
   console.log("Saving token to database...saveTokenToDatabasenow", token);
   try {
     // console.log("Saving token to database...saveTokenToDatabase", token);
     const response = await authFetch.patch(`notification/save-token/${token}`);
   } catch (error) {
-    console.error("Failed to save token to database:", error);
+    console.log("Failed to save token to database:", error);
+    navigation.navigate("Splash");
   }
 };
 

@@ -21,7 +21,7 @@ const CustomHeaderTitle2 = ({ routeName }) => {
           setChurchName(userData.churchName);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 

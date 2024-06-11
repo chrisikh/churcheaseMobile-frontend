@@ -39,14 +39,14 @@ const NotificationPage = () => {
               await sendPushNotification(token, message);
               console.log(`Notification sent to ${token}`);
             } catch (error) {
-              console.error("Error sending push notification:", error);
+              console.log("Error sending push notification:", error);
             }
           });
         } else {
-          console.error("Error fetching notification data:", data.message);
+          console.log("Error fetching notification data:", data.message);
         }
       } catch (error) {
-        console.error("Error in fetchNotificationData:", error);
+        console.log("Error in fetchNotificationData:", error);
       }
     };
 

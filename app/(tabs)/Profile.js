@@ -37,7 +37,7 @@ const Profile = () => {
           setUserData(userData);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 
@@ -75,7 +75,7 @@ const Profile = () => {
         setModalVisible2(true);
       }
     } catch (error) {
-      console.error("Error saving user data:", error);
+      console.log("Error saving user data:", error);
     }
   };
 

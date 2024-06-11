@@ -4,8 +4,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
+  Text,
 } from "react-native";
-import { Input, Button, ListItem, Text, CheckBox } from "react-native-elements";
 import { useAppContext } from "@/context/appContext";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,12 +19,14 @@ const Forms = () => {
   }, []);
 
   const fetchData = async () => {
-    const getData = formsData.forms.map((item) => ({
-      ...item,
-      id: item._id,
-    }));
+    if (formsData && formsData.forms) {
+      const getData = formsData.forms.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
 
-    setFormInfo(getData);
+      setFormInfo(getData);
+    }
   };
 
   useEffect(() => {

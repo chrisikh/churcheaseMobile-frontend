@@ -1,5 +1,4 @@
 import { Text, type TextProps, StyleSheet } from "react-native";
-
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export type ThemedTextProps = TextProps & {
@@ -20,7 +19,7 @@ export function ThemedText({
   style,
   lightColor,
   darkColor,
-  type = "default",
+  type = "default", // Default parameter
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
@@ -29,14 +28,14 @@ export function ThemedText({
     <Text
       style={[
         { color },
-        type === "default" ? styles.default : undefined,
-        type === "title" ? styles.title : undefined,
-        type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
-        type === "subtitle" ? styles.subtitle : undefined,
-        type === "subtitle2" ? styles.subtitle2 : undefined,
-        type === "link" ? styles.link : undefined,
-        type === "titlemini" ? styles.titlemini : undefined,
-        type === "titlemini2" ? styles.titlemini2 : undefined,
+        type === "default" && styles.default,
+        type === "title" && styles.title,
+        type === "defaultSemiBold" && styles.defaultSemiBold,
+        type === "subtitle" && styles.subtitle,
+        type === "subtitle2" && styles.subtitle2,
+        type === "link" && styles.link,
+        type === "titlemini" && styles.titlemini,
+        type === "titlemini2" && styles.titlemini2,
         style,
       ]}
       {...rest}
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
     color: "#243060",
     fontFamily: "OpenSans",
   },
-
   titlemini2: {
     fontSize: 24,
     fontWeight: "bold",

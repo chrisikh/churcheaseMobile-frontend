@@ -61,7 +61,7 @@ const LearningDetails = ({
           setChurchName(userData.churchName);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 
@@ -83,7 +83,7 @@ const LearningDetails = ({
       await enrollForCourse(myData);
       console.log("Form submitted successfully");
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.log("Error submitting form:", error);
     }
   };
 

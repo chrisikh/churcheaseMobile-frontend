@@ -52,7 +52,7 @@ const MyVolunteerExpression = () => {
       const { data } = await authFetch.get("/volunteer/express");
       setSchedules(data);
     } catch (error) {
-      console.error("Error fetching expression of interest:", error);
+      console.log("Error fetching expression of interest:", error);
       logoutUser();
     }
   };

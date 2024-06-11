@@ -117,7 +117,7 @@ const AppProvider = ({ children }) => {
           setStorageToken(token);
         }
       } catch (error) {
-        console.error("Error retrieving token:", error);
+        console.log("Error retrieving token:", error);
       }
       //await SplashScreen.hideAsync();
     }
@@ -217,7 +217,7 @@ const AppProvider = ({ children }) => {
 
       return response.data; // Return the response data for further handling
     } catch (error) {
-      console.error("Error during user setup:", error);
+      console.log("Error during user setup:", error);
       let errorMessage = "There was an error setting up the user.";
       if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
@@ -260,7 +260,6 @@ const AppProvider = ({ children }) => {
         payload: { user, token, passwordUpdateStatus },
       });
     } catch (error) {
-      console.error(error);
       dispatch({
         type: UPDATE_USERPASSWORD_ERROR,
         payload: { msg: error.response?.data?.msg || error.message },
@@ -309,7 +308,7 @@ const AppProvider = ({ children }) => {
       // Optionally, you can use a reducer to handle the state update
       // dispatch({ type: "LOGOUT_USER" });
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.log("Error during logout:", error);
       // Handle additional cleanup or error messaging as needed
     }
   };
@@ -327,7 +326,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching announcement info:", error);
+      console.log("Error fetching announcement info:", error);
     }
     clearAlert();
   };
@@ -344,7 +343,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching learning:", error);
+      console.log("Error fetching learning:", error);
     } finally {
       clearAlert();
     }
@@ -380,7 +379,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching learning:", error);
+      console.log("Error fetching learning:", error);
     } finally {
       clearAlert();
     }
@@ -398,7 +397,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.log("Error fetching events:", error);
       // Handle the error (e.g., show a notification, log out the user)
       // logoutUser();
       //dispatch({ type: GET_EVENT_ERROR, payload: { error: error.message } });
@@ -419,7 +418,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching volunteer:", error);
+      console.log("Error fetching volunteer:", error);
     } finally {
       clearAlert();
     }
@@ -438,7 +437,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.log("Error fetching events:", error);
     } finally {
       clearAlert();
     }
@@ -490,7 +489,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.log("Error fetching events:", error);
     }
     clearAlert();
   };
@@ -507,7 +506,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.log("Error fetching events:", error);
     }
     clearAlert();
   };
@@ -524,7 +523,7 @@ const AppProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.log("Error fetching events:", error);
     }
     clearAlert();
   };
@@ -634,6 +633,10 @@ const AppProvider = ({ children }) => {
       {children}
     </AppContext.Provider>
   );
+};
+
+export const logoutUser = async () => {
+  await AsyncStorage.clear();
 };
 
 const useAppContext = () => {

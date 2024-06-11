@@ -88,7 +88,7 @@ export default function Login() {
       })
       .catch((error) => {
         // Handle errors here
-        console.error("Error setting up user:", error);
+        console.log("Error setting up user:", error);
         let errorMessage = "There was an error setting up the user.";
         if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;

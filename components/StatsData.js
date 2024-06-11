@@ -36,7 +36,7 @@ const StatsData = () => {
       const response = await authFetch.get("/learning/count");
       setCountCourse(response.data.count);
     } catch (error) {
-      console.error("Error counting courses:", error);
+      console.log("Error counting courses:", error);
     }
   };
 
@@ -46,7 +46,7 @@ const StatsData = () => {
       const response = await authFetch.get("/volunteer/count");
       setCountVolunteering(response.data.count);
     } catch (error) {
-      console.error("Error counting volunteering:", error);
+      console.log("Error counting volunteering:", error);
     }
   };
 

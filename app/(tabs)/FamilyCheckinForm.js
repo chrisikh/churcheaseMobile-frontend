@@ -51,7 +51,7 @@ const FamilyCheckinForm = () => {
       const response = await authFetch.get(`/event/${item}`);
       setEvent(response.data);
     } catch (error) {
-      console.error("Error fetching event:", error);
+      console.log("Error fetching event:", error);
     }
   };
 
@@ -64,7 +64,7 @@ const FamilyCheckinForm = () => {
           setMid(userData.mid);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 
@@ -82,7 +82,7 @@ const FamilyCheckinForm = () => {
       const response = await authFetch.get(`/user/${mid}`);
       setFamily(response.data);
     } catch (error) {
-      console.error("Error fetching family:", error);
+      console.log("Error fetching family:", error);
     }
   };
 
@@ -105,7 +105,7 @@ const FamilyCheckinForm = () => {
       }, {});
       setCheckinStatus(status);
     } catch (error) {
-      console.error("Error fetching iuvbuiviu check-in status:", error);
+      console.log("Error fetching iuvbuiviu check-in status:", error);
     }
   };
   const [isDisabled, setIsDisabled] = useState(false);
@@ -197,7 +197,7 @@ const FamilyCheckinForm = () => {
         );
       }
     } catch (error) {
-      console.error("Error during check-in:", error);
+      console.log("Error during check-in:", error);
       Alert.alert("Error", "An error occurred during check-in.");
     }
   };

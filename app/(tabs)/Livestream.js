@@ -51,7 +51,7 @@ const Livestream = () => {
         setLivestream(response.data);
       }
     } catch (error) {
-      console.error("Error fetching livestream:", error);
+      console.log("Error fetching livestream:", error);
     }
   };
 

@@ -51,7 +51,7 @@ const Devotional = () => {
         setDevotional(response.data);
       }
     } catch (error) {
-      console.error("Error fetching devotionals:", error);
+      console.log("Error fetching devotionals:", error);
     }
   };
 

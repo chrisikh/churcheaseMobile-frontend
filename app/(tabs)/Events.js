@@ -5,16 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  Alert,
   SafeAreaView,
-  ScrollView,
-  Image,
   ImageBackground,
 } from "react-native";
 import { useAppContext } from "@/context/appContext";
 import EventDetailModal from "@/components/EventDetailModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import image1 from "@/assets//images/eef.jpg";
+import image1 from "@/assets/images/eef.jpg";
 
 const Events = ({ color }) => {
   const containerStyle = {
@@ -32,6 +29,7 @@ const Events = ({ color }) => {
   useEffect(() => {
     getEvents();
   }, []);
+
   const fetchData = async () => {
     const getData = events.map((item) => ({
       ...item,
@@ -75,31 +73,27 @@ const Events = ({ color }) => {
   };
 
   const handleItemPress = (item) => {
-    // Handle the item press event
     setSelectedEvent(item);
     setModalVisible(true);
   };
-  //const slicedData = announcement.slice(0, 1);
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={containerStyle}>
-          <FlatList
-            data={eventData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContainer}
-            showsVerticalScrollIndicator={false}
-            initialNumToRender={2}
-          />
-          <EventDetailModal
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            eventData={selectedEvent}
-          />
-        </View>
-      </ScrollView>
+      <View style={containerStyle}>
+        <FlatList
+          data={eventData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={2}
+        />
+        <EventDetailModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          eventData={selectedEvent}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -110,26 +104,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 16,
-  },
   container: {
     paddingVertical: 20,
+    paddingHorizontal: 13,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "left",
-    paddingBottom: 10,
-  },
-  title: {
-    marginTop: 5,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-
   listContainer: {
     flexGrow: 1, // Ensures the list container grows to fill the space
   },
@@ -137,9 +115,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
-    marginBottom: 5,
+    marginBottom: 10,
   },
-
   textContainer: {
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background for text container
     paddingVertical: 30,
@@ -152,13 +129,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: "OpenSans",
     paddingBottom: 8,
-    color: "#fff",
-  },
-  dateText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    textAlign: "left",
-    fontFamily: "OpenSans",
     color: "#fff",
   },
   dateText: {

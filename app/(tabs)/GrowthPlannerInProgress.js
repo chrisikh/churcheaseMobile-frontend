@@ -75,7 +75,7 @@ const GrowthPlannerInProgress = () => {
         setSavedPlan(savedData);
       }
     } catch (error) {
-      console.error("Error fetching saved planner:", error);
+      console.log("Error fetching saved planner:", error);
       Alert.alert("Error", "Failed to fetch saved planner");
     }
   };
@@ -102,7 +102,7 @@ const GrowthPlannerInProgress = () => {
           setMemberId(userData.mid);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.log("Error retrieving user data:", error);
       }
     };
 
@@ -194,7 +194,7 @@ const GrowthPlannerInProgress = () => {
       setGrowthData({ ...growthData, tasks: clearedGrowthData });
       setModalVisible2(true);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.log("Error submitting form:", error);
       Alert.alert(
         "Error",
         "There was an error submitting the form. Please try again."
@@ -223,7 +223,7 @@ const GrowthPlannerInProgress = () => {
         Alert.alert("Error", "Failed to save planner");
       }
     } catch (error) {
-      console.error("Error saving planner:", error);
+      console.log("Error saving planner:", error);
       Alert.alert("Error", "Failed to save planner");
     }
   };
@@ -256,7 +256,7 @@ const GrowthPlannerInProgress = () => {
         Alert.alert("Error", "Failed to save planner");
       }
     } catch (error) {
-      console.error("Error saving planner:", error);
+      console.log("Error saving planner:", error);
       Alert.alert("Error", "Failed to save planner");
     }
   };

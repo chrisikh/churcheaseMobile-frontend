@@ -12,7 +12,7 @@ import { Input, Button } from "react-native-elements";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "@/constants/MyColors";
-import { useAppContext } from "@/context/appContext";
+import { logoutUser, useAppContext } from "@/context/appContext";
 
 import { BASE_URL } from "@/util/auth";
 
@@ -32,7 +32,7 @@ const ChangePasswordScreen = () => {
     },
     (error) => {
       if (error.response.status === 401) {
-        logout();
+        logoutUser();
       }
       return Promise.reject(error);
     }
@@ -84,7 +84,7 @@ const ChangePasswordScreen = () => {
         Alert.alert("Error", "Failed to change password");
       }
     } catch (error) {
-      console.error("Error changing password:", error);
+      console.log("Error changing password:", error);
       Alert.alert("Error", "Error changing password. Please try again.");
     } finally {
       setLoading(false);

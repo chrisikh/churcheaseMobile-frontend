@@ -149,7 +149,7 @@ const GrowthPlanner = () => {
         setSavedPlan(savedData);
       }
     } catch (error) {
-      console.error("Error fetching saved planner:", error);
+      console.log("Error fetching saved planner:", error);
       Alert.alert("Error", "Failed to fetch saved planner");
     }
   };
