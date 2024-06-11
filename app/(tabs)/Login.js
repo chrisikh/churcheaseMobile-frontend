@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   KeyboardAvoidingView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
   Platform,
@@ -11,15 +10,13 @@ import {
 } from "react-native";
 import { Input, Button } from "@rneui/themed";
 import { useAppContext } from "@/context/appContext";
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemedButton } from "@/components/ThemedButton";
 import logo from "@/assets/images/logo.png";
-import { router } from "expo-router";
 import { validateCredentials } from "@/util/validatecredentials";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login() {
   const navigation = useNavigation();
@@ -42,12 +39,6 @@ export default function Login() {
     setEnteredPassword(password);
   }
 
-  //   interface AppContextType {
-  //     isAuthenticated: boolean;
-  //     setIsAuthenticated: () => void;
-  //     setupUser: (user: any) => void; // Add this line
-  //   }
-
   function subdomainInputHandler(subdomain) {
     setEnteredSubdomain(subdomain);
   }
@@ -56,7 +47,6 @@ export default function Login() {
     navigation.navigate("ForgotPassword");
   }
 
-  const [isMember] = useState(true);
   function confirmInputHandler() {
     validateCredentials({
       enteredEmail,
@@ -81,100 +71,90 @@ export default function Login() {
       alertText: "Login Successful",
     })
       .then((response) => {
-        // Handle successful response here
-        //console.log("User setup successfully:", response);
         navigation.navigate("AuthenticatedStack");
         setIsAuthenticated(true);
       })
       .catch((error) => {
-        // Handle errors here
         console.log("Error setting up user:", error);
         let errorMessage = "There was an error setting up the user.";
         if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;
         }
         alert(errorMessage);
-        setIsAuthenticated(false); // Revert authentication state if setup fails
+        setIsAuthenticated(false);
       });
   }
 
-  // const forgotHandler = () => {
-  //   router.push("/forgotPassword");
-  // };
-
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.form}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 40,
+        }}
       >
-        <Image source={logo} style={styles.logoimage} />
+        <View style={styles.inner}>
+          <Image source={logo} style={styles.logoimage} />
 
-        <View style={styles.inputContainer}>
-          <ThemedText
-            type="titlemini"
-            onPress={forgotHandler}
-            style={styles.forgotpasswordx}
-          >
-            Login
-          </ThemedText>
-          <Input
-            placeholder="Domain"
-            leftIcon={<Icon name="domain" size={20} />}
-            onChangeText={subdomainInputHandler}
-            value={enteredSubdomain}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-          <Input
-            placeholder="Email"
-            leftIcon={<Icon name="account-outline" size={20} />}
-            onChangeText={emailInputHandler}
-            value={enteredEmail}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
+          <View style={styles.inputContainer}>
+            <ThemedText
+              type="titlemini"
+              onPress={forgotHandler}
+              style={styles.forgotpasswordx}
+            >
+              Login
+            </ThemedText>
+            <Input
+              placeholder="Domain"
+              leftIcon={<Icon name="domain" size={20} />}
+              onChangeText={subdomainInputHandler}
+              value={enteredSubdomain}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <Input
+              placeholder="Email"
+              leftIcon={<Icon name="account-outline" size={20} />}
+              onChangeText={emailInputHandler}
+              value={enteredEmail}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
 
-          {/* <View>
             <Input
               placeholder="Password"
-              secureTextEntry={true}
+              secureTextEntry={!isPasswordVisible}
               leftIcon={<Icon name="lock" size={20} />}
+              rightIcon={
+                <TouchableOpacity onPress={togglePasswordVisibility}>
+                  <Icon
+                    name={isPasswordVisible ? "eye-outline" : "eye"}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              }
               onChangeText={passwordInputHandler}
               value={enteredPassword}
               autoCorrect={false}
               autoCapitalize="none"
             />
-          </View> */}
-          <Input
-            placeholder="Password"
-            secureTextEntry={!isPasswordVisible}
-            leftIcon={<Icon name="lock" size={20} />}
-            rightIcon={
-              <TouchableOpacity onPress={togglePasswordVisibility}>
-                <Icon
-                  name={isPasswordVisible ? "eye-outline" : "eye"}
-                  size={20}
-                />
-              </TouchableOpacity>
-            }
-            onChangeText={passwordInputHandler}
-            value={enteredPassword}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
 
-          <TouchableOpacity onPress={forgotHandler} style={styles.touchable}>
-            <ThemedText type="link" style={styles.forgotpassword}>
-              Forgot password?
-            </ThemedText>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={forgotHandler} style={styles.touchable}>
+              <ThemedText type="link" style={styles.forgotpassword}>
+                Forgot password?
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.inputContainer}>
-          <ThemedButton title="Login" onPress={confirmInputHandler} />
+          <View style={styles.inputContainer}>
+            <ThemedButton title="Login" onPress={confirmInputHandler} />
+          </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
@@ -183,18 +163,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  headerImage: {
-    fontSize: 100,
-    textAlign: "center",
-  },
   form: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-
-  inputContainer: {
+  inner: {
     width: "80%",
+  },
+  inputContainer: {
+    width: "100%",
   },
   forgotpassword: {
     marginBottom: 30,
@@ -209,10 +185,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
   },
-
   logoimage: {
     width: 100,
     height: 100,
     marginBottom: 80,
+    alignSelf: "center",
   },
 });

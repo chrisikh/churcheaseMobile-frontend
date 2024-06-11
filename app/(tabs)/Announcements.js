@@ -27,11 +27,13 @@ const Announcements = ({ title, iconName, color }) => {
   }, []);
 
   const fetchData = async () => {
-    const getData = announcements.map((item) => ({
-      ...item,
-      id: item._id, // Add `id` field derived from `_id`
-    }));
-    setAnnouncement(getData);
+    if (announcements) {
+      const getData = announcements.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
+      setAnnouncement(getData);
+    }
   };
 
   useEffect(() => {

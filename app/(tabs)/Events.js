@@ -31,11 +31,13 @@ const Events = ({ color }) => {
   }, []);
 
   const fetchData = async () => {
-    const getData = events.map((item) => ({
-      ...item,
-      id: item._id, // Add `id` field derived from `_id`
-    }));
-    setEventData(getData);
+    if (events) {
+      const getData = events.map((item) => ({
+        ...item,
+        id: item._id,
+      }));
+      setEventData(getData);
+    }
   };
 
   useEffect(() => {
